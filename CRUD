@@ -1,0 +1,150 @@
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/generos")
+public class GeneroController {
+
+    @Autowired
+    private GeneroService generoService;
+
+    @GetMapping
+    public List<Genero> getAllGeneros() {
+        return generoService.getAllGeneros();
+    }
+
+    @PostMapping
+    public Genero addGenero(@RequestBody Genero genero) {
+        return generoService.addGenero(genero);
+    }
+
+    @GetMapping("/{id}")
+    public Genero getGeneroById(@PathVariable Long id) {
+        return generoService.getGeneroById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Genero updateGenero(@PathVariable Long id, @RequestBody Genero genero) {
+        return generoService.updateGenero(id, genero);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteGenero(@PathVariable Long id) {
+        generoService.deleteGenero(id);
+    }
+}
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/filmes")
+public class FilmeController {
+
+    @Autowired
+    private FilmeService filmeService;
+
+    @GetMapping
+    public List<Filme> getAllFilmes() {
+        return filmeService.getAllFilmes();
+    }
+
+    @PostMapping
+    public Filme addFilme(@RequestBody Filme filme) {
+        return filmeService.addFilme(filme);
+    }
+
+    @GetMapping("/{id}")
+    public Filme getFilmeById(@PathVariable Long id) {
+        return filmeService.getFilmeById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Filme updateFilme(@PathVariable Long id, @RequestBody Filme filme) {
+        return filmeService.updateFilme(id, filme);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteFilme(@PathVariable Long id) {
+        filmeService.deleteFilme(id);
+    }
+}
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class GeneroService {
+
+    @Autowired
+    private GeneroRepository generoRepository;
+
+    public List<Genero> getAllGeneros() {
+        return generoRepository.findAll();
+    }
+
+    public Genero addGenero(Genero genero) {
+        return generoRepository.save(genero);
+    }
+
+    public Genero getGeneroById(Long id) {
+        return generoRepository.findById(id).orElseThrow(() -> new RuntimeException("Genero não encontrado"));
+    }
+
+    public Genero updateGenero(Long id, Genero genero) {
+        genero.setId(id);
+        return generoRepository.save(genero);
+    }
+
+    public void deleteGenero(Long id) {
+        generoRepository.deleteById(id);
+    }
+}
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class FilmeService {
+
+    @Autowired
+    private FilmeRepository filmeRepository;
+
+    public List<Filme> getAllFilmes() {
+        return filmeRepository.findAll();
+    }
+
+    public Filme addFilme(Filme filme) {
+        return filmeRepository.save(filme);
+    }
+
+    public Filme getFilmeById(Long id) {
+        return filmeRepository.findById(id).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+    }
+
+    public Filme updateFilme(Long id, Filme filme) {
+        filme.setId(id);
+        return filmeRepository.save(filme);
+    }
+
+    public void deleteFilme(Long id) {
+        filmeRepository.deleteById(id);
+    }
+}
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface GeneroRepository extends JpaRepository<Genero, Long> {
+}
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface FilmeRepository extends JpaRepository<Filme, Long> {
+}
