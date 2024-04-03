@@ -1,0 +1,92 @@
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/generos")
+public class GeneroController {
+
+    @Autowired
+    private GeneroService generoService;
+
+    // Endpoint para criar um novo gênero
+    @PostMapping
+    public ResponseEntity<Genero> criarGenero(@RequestBody Genero genero) {
+        Genero novoGenero = generoService.criarGenero(genero);
+        return new ResponseEntity<>(novoGenero, HttpStatus.CREATED);
+    }
+
+    // Endpoint para recuperar todos os gêneros
+    @GetMapping
+    public ResponseEntity<List<Genero>> listarGeneros() {
+        List<Genero> generos = generoService.listarGeneros();
+        return new ResponseEntity<>(generos, HttpStatus.OK);
+    }
+
+    // Endpoint para recuperar um gênero por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Genero> buscarGeneroPorId(@PathVariable Long id) {
+        Genero genero = generoService.buscarGeneroPorId(id);
+        return new ResponseEntity<>(genero, HttpStatus.OK);
+    }
+
+    // Endpoint para atualizar um gênero por ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Genero> atualizarGenero(@PathVariable Long id, @RequestBody Genero genero) {
+        Genero generoAtualizado = generoService.atualizarGenero(id, genero);
+        return new ResponseEntity<>(generoAtualizado, HttpStatus.OK);
+    }
+
+    // Endpoint para excluir um gênero por ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirGenero(@PathVariable Long id) {
+        generoService.excluirGenero(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+
+@RestController
+@RequestMapping("/api/filmes")
+public class FilmeController {
+
+    @Autowired
+    private FilmeService filmeService;
+
+    // Endpoint para criar um novo filme
+    @PostMapping
+    public ResponseEntity<Filme> criarFilme(@RequestBody Filme filme) {
+        Filme novoFilme = filmeService.criarFilme(filme);
+        return new ResponseEntity<>(novoFilme, HttpStatus.CREATED);
+    }
+
+    // Endpoint para recuperar todos os filmes
+    @GetMapping
+    public ResponseEntity<List<Filme>> listarFilmes() {
+        List<Filme> filmes = filmeService.listarFilmes();
+        return new ResponseEntity<>(filmes, HttpStatus.OK);
+    }
+
+    // Endpoint para recuperar um filme por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Filme> buscarFilmePorId(@PathVariable Long id) {
+        Filme filme = filmeService.buscarFilmePorId(id);
+        return new ResponseEntity<>(filme, HttpStatus.OK);
+    }
+
+    // Endpoint para atualizar um filme por ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Filme> atualizarFilme(@PathVariable Long id, @RequestBody Filme filme) {
+        Filme filmeAtualizado = filmeService.atualizarFilme(id, filme);
+        return new ResponseEntity<>(filmeAtualizado, HttpStatus.OK);
+    }
+
+    // Endpoint para excluir um filme por ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirFilme(@PathVariable Long id) {
+        filmeService.excluirFilme(id);
+        return ResponseEntity.noContent().build();
+    }
+}
